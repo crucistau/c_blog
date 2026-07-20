@@ -49,15 +49,18 @@ spring:
       email: email_queue
       log-login: log_login_queue
       log-system: log_system_queue
+      es-sync: es_sync_queue
     # 邮箱交换机名称
     exchange:
       email: email_exchange
       log: log_exchange
+      es: es_exchange
     # 邮箱路由键
     routingKey:
       email: email_routing_key
       log-login: log_routing_key_login
       log-system: log_routing_key_system
+      es-sync: es_sync_routing_key
   mail:
     host: smtp.qq.com
     # 邮件账号与授权码，敏感值见 application-prod.yml / application-dev.yml
@@ -177,3 +180,20 @@ minio:
   accessKey:
   secretKey:
   bucketName: blog
+# Elasticsearch（与服务器 8.18.0 严格对齐）
+elasticsearch:
+  uris: https://141.98.198.67:9200
+  username: elastic
+  password: ${ES_PASSWORD:changeme}
+  ca-cert-path: classpath:es/http_ca.crt
+  connect-timeout: 5000
+  socket-timeout: 30000
+# 全文搜索开关与实体粒度降级开关
+search:
+  enabled: true
+  fallback-on-error: true
+  entities:
+    article: true
+    leave-word: true
+    tag: false
+    category: false

@@ -3,10 +3,13 @@ package xyz.kuailemao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.kuailemao.constants.FunctionConst;
 import xyz.kuailemao.domain.dto.CategoryDTO;
+import xyz.kuailemao.domain.dto.EsSyncMessage;
 import xyz.kuailemao.domain.dto.SearchCategoryDTO;
 import xyz.kuailemao.domain.entity.Article;
 import xyz.kuailemao.domain.entity.Category;
@@ -34,6 +37,15 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Resource
     private CategoryMapper categoryMapper;
 
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.exchange.es}")
+    private String ES_EXCHANGE;
+
+    @Value("${spring.rabbitmq.routingKey.es-sync}")
+    private String ES_SYNC_ROUTING_KEY;
+
     @Override
     public List<CategoryVO> listAllCategory() {
         List<Category> categories = this.query().list();
@@ -46,7 +58,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public ResponseResult<Void> addCategory(CategoryDTO categoryDTO) {
         categoryDTO.setId(null);
-        if (this.save(categoryDTO.asViewObject(Category.class))) return ResponseResult.success();
+        Category category = categoryDTO.asViewObject(Category.class);
+        if (this.save(category)) {
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.CATEGORY).id(category.getId()).syncType(EsSyncMessage.SyncType.SAVE).build());
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 
@@ -74,7 +92,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Transactional
     @Override
     public ResponseResult<Void> addOrUpdateCategory(CategoryDTO categoryDTO) {
-        if (this.saveOrUpdate(categoryDTO.asViewObject(Category.class))) return ResponseResult.success();
+        Category category = categoryDTO.asViewObject(Category.class);
+        if (this.saveOrUpdate(category)) {
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.CATEGORY).id(category.getId()).syncType(EsSyncMessage.SyncType.UPDATE).build());
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 
@@ -85,7 +109,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         Long count = articleMapper.selectCount(new LambdaQueryWrapper<Article>().in(Article::getCategoryId, ids));
         if (count > 0) return ResponseResult.failure(FunctionConst.CATEGORY_EXIST_ARTICLE);
         // 执行删除
-        if (this.removeByIds(ids)) return ResponseResult.success();
+        if (this.removeByIds(ids)) {
+            // 同步 ES 删除
+            ids.forEach(id -> rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.CATEGORY).id(id).syncType(EsSyncMessage.SyncType.DELETE).build()));
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 }

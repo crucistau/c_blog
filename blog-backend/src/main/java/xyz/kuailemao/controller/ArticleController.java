@@ -18,8 +18,11 @@ import xyz.kuailemao.annotation.LogAnnotation;
 import xyz.kuailemao.constants.LogConst;
 import xyz.kuailemao.domain.dto.ArticleDTO;
 import xyz.kuailemao.domain.dto.SearchArticleDTO;
+import xyz.kuailemao.domain.dto.EsSyncMessage;
 import xyz.kuailemao.domain.response.ResponseResult;
 import xyz.kuailemao.domain.vo.*;
+import xyz.kuailemao.search.EsFullSyncService;
+import xyz.kuailemao.search.SearchRouter;
 import xyz.kuailemao.service.ArticleService;
 import xyz.kuailemao.utils.ControllerUtils;
 
@@ -39,6 +42,12 @@ public class ArticleController {
     @Resource
     private ArticleService articleService;
 
+    @Resource
+    private EsFullSyncService esFullSyncService;
+
+    @Resource
+    private SearchRouter searchRouter;
+
     /**
      * 初始化标题搜索文章数据
      *
@@ -48,7 +57,7 @@ public class ArticleController {
     @AccessLimit(seconds = 60, maxCount = 5)
     @GetMapping("/search/init/title")
     public ResponseResult<List<InitSearchTitleVO>> initSearchByTitle() {
-        return ControllerUtils.messageHandler(() -> articleService.initSearchByTitle());
+        return ControllerUtils.messageHandler(() -> searchRouter.article().initSearchByTitle());
     }
 
     /**
@@ -68,7 +77,7 @@ public class ArticleController {
             @Length(min = 1, max = 15, message = "文章搜索长度应在1-15之间")
             @RequestParam("content") String content
     ) {
-        return ControllerUtils.messageHandler(() -> articleService.searchArticleByContent(content));
+        return ControllerUtils.messageHandler(() -> searchRouter.article().searchByContent(content));
     }
 
     // 热门推荐
@@ -223,7 +232,7 @@ public class ArticleController {
     @AccessLimit(seconds = 60, maxCount = 30)
     @PostMapping("/back/search")
     public ResponseResult<List<ArticleListVO>> searchArticle(@RequestBody SearchArticleDTO searchArticleDTO) {
-        return ControllerUtils.messageHandler(() -> articleService.searchArticle(searchArticleDTO));
+        return ControllerUtils.messageHandler(() -> searchRouter.article().searchArticles(searchArticleDTO));
     }
 
     @PreAuthorize("hasAnyAuthority('blog:article:update')")
@@ -280,5 +289,14 @@ public class ArticleController {
     @DeleteMapping("/back/delete")
     public ResponseResult<Void> deleteArticle(@RequestBody List<Long> ids) {
         return articleService.deleteArticle(ids);
+    }
+
+    @PreAuthorize("hasAnyAuthority('blog:article:search')")
+    @Operation(summary = "全量同步到ES")
+    @LogAnnotation(module = "文章管理", operation = "全量同步ES")
+    @AccessLimit(seconds = 60, maxCount = 1)
+    @PostMapping("/back/es/sync")
+    public ResponseResult<Long> fullSyncToEs(@RequestParam("type") EsSyncMessage.EntityType type) {
+        return ControllerUtils.messageHandler(() -> esFullSyncService.fullSync(type));
     }
 }

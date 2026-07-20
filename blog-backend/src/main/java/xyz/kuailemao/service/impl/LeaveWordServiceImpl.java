@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import xyz.kuailemao.constants.FunctionConst;
 import xyz.kuailemao.constants.SQLConst;
+import xyz.kuailemao.domain.dto.EsSyncMessage;
 import xyz.kuailemao.domain.dto.LeaveWordIsCheckDTO;
 import xyz.kuailemao.domain.dto.SearchLeaveWordDTO;
 import xyz.kuailemao.domain.entity.*;
@@ -54,6 +56,15 @@ public class LeaveWordServiceImpl extends ServiceImpl<LeaveWordMapper, LeaveWord
     @Resource
     private LeaveWordMapper leaveWordMapper;
 
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.exchange.es}")
+    private String ES_EXCHANGE;
+
+    @Value("${spring.rabbitmq.routingKey.es-sync}")
+    private String ES_SYNC_ROUTING_KEY;
+
     @Override
     public List<LeaveWordVO> getLeaveWordList(String id) {
         return this.query()
@@ -89,6 +100,9 @@ public class LeaveWordServiceImpl extends ServiceImpl<LeaveWordMapper, LeaveWord
                 .userId(SecurityUtils.getUserId()).build();
 
         if (this.save(build)){
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.LEAVE_WORD).id(build.getId()).syncType(EsSyncMessage.SyncType.SAVE).build());
             // 是否是站长本人留言
             User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getId, SecurityUtils.getUserId()));
             if (Objects.equals(user.getEmail(), email) || !messageNewNotice) return ResponseResult.success();
@@ -129,8 +143,12 @@ public class LeaveWordServiceImpl extends ServiceImpl<LeaveWordMapper, LeaveWord
 
     @Override
     public ResponseResult<Void> isCheckLeaveWord(LeaveWordIsCheckDTO isCheckDTO) {
-        if (leaveWordMapper.updateById(LeaveWord.builder().id(isCheckDTO.getId()).isCheck(isCheckDTO.getIsCheck()).build()) > 0)
+        if (leaveWordMapper.updateById(LeaveWord.builder().id(isCheckDTO.getId()).isCheck(isCheckDTO.getIsCheck()).build()) > 0) {
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.LEAVE_WORD).id(isCheckDTO.getId()).syncType(EsSyncMessage.SyncType.UPDATE).build());
             return ResponseResult.success();
+        }
 
         return ResponseResult.failure();
     }
@@ -142,6 +160,9 @@ public class LeaveWordServiceImpl extends ServiceImpl<LeaveWordMapper, LeaveWord
             likeMapper.delete(new LambdaQueryWrapper<Like>().eq(Like::getType, LikeEnum.LIKE_TYPE_LEAVE_WORD.getType()).and(a -> a.in(Like::getTypeId, ids)));
             favoriteMapper.delete(new LambdaQueryWrapper<Favorite>().eq(Favorite::getType, FavoriteEnum.FAVORITE_TYPE_LEAVE_WORD.getType()).and(a -> a.in(Favorite::getTypeId, ids)));
             commentMapper.delete(new LambdaQueryWrapper<Comment>().eq(Comment::getType, CommentEnum.COMMENT_TYPE_LEAVE_WORD.getType()).and(a -> a.in(Comment::getTypeId, ids)));
+            // 同步 ES 删除
+            ids.forEach(id -> rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.LEAVE_WORD).id(id).syncType(EsSyncMessage.SyncType.DELETE).build()));
             return ResponseResult.success();
         }
         return ResponseResult.failure();

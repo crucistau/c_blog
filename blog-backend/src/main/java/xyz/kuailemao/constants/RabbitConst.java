@@ -22,4 +22,19 @@ public class RabbitConst {
      * 系统操作日志队列
      */
     public static final String LOG_SYSTEM_QUEUE = "log_system_queue";
+
+    /**
+     * ES 同步队列
+     */
+    public static final String ES_SYNC_QUEUE = "es_sync_queue";
+
+    /**
+     * ES 同步交换机
+     */
+    public static final String ES_EXCHANGE = "es_exchange";
+
+    /**
+     * ES 同步路由键
+     */
+    public static final String ES_SYNC_ROUTING_KEY = "es_sync_routing_key";
 }

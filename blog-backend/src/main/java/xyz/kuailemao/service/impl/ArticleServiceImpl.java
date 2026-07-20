@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.kuailemao.constants.RedisConst;
 import xyz.kuailemao.constants.SQLConst;
 import xyz.kuailemao.domain.dto.ArticleDTO;
+import xyz.kuailemao.domain.dto.EsSyncMessage;
 import xyz.kuailemao.domain.dto.SearchArticleDTO;
 import xyz.kuailemao.domain.entity.*;
 import xyz.kuailemao.domain.response.ResponseResult;
@@ -79,6 +81,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Resource
     private CommentMapper commentMapper;
+
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.exchange.es}")
+    private String ES_EXCHANGE;
+
+    @Value("${spring.rabbitmq.routingKey.es-sync}")
+    private String ES_SYNC_ROUTING_KEY;
 
 
     @Override
@@ -298,6 +309,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             // 新增标签关系
             List<ArticleTag> articleTags = articleDTO.getTagId().stream().map(articleTag -> ArticleTag.builder().articleId(article.getId()).tagId(articleTag).build()).toList();
             articleTagService.saveBatch(articleTags);
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.ARTICLE).id(article.getId()).syncType(EsSyncMessage.SyncType.SAVE).build());
             return ResponseResult.success();
         }
         return ResponseResult.failure();
@@ -378,6 +392,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult<Void> updateStatus(Long id, Integer status) {
         if (this.update(new LambdaUpdateWrapper<Article>().eq(Article::getId, id).set(Article::getStatus, status))) {
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.ARTICLE).id(id).syncType(EsSyncMessage.SyncType.UPDATE).build());
             return ResponseResult.success();
         }
         return ResponseResult.failure();
@@ -386,6 +402,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Override
     public ResponseResult<Void> updateIsTop(Long id, Integer isTop) {
         if (this.update(new LambdaUpdateWrapper<Article>().eq(Article::getId, id).set(Article::getIsTop, isTop))) {
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.ARTICLE).id(id).syncType(EsSyncMessage.SyncType.UPDATE).build());
             return ResponseResult.success();
         }
         return ResponseResult.failure();
@@ -413,6 +431,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             likeMapper.delete(new LambdaQueryWrapper<Like>().eq(Like::getType, LikeEnum.LIKE_TYPE_ARTICLE.getType()).and(a -> a.in(Like::getTypeId, ids)));
             favoriteMapper.delete(new LambdaQueryWrapper<Favorite>().eq(Favorite::getType, FavoriteEnum.FAVORITE_TYPE_ARTICLE.getType()).and(a -> a.in(Favorite::getTypeId, ids)));
             commentMapper.delete(new LambdaQueryWrapper<Comment>().eq(Comment::getType, CommentEnum.COMMENT_TYPE_ARTICLE.getType()).and(a -> a.in(Comment::getTypeId, ids)));
+            // 同步 ES 索引（按 id 逐条发送 DELETE）
+            ids.forEach(id -> rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.ARTICLE).id(id).syncType(EsSyncMessage.SyncType.DELETE).build()));
             return ResponseResult.success();
         }
         return ResponseResult.failure();

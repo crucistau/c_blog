@@ -3,9 +3,12 @@ package xyz.kuailemao.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.kuailemao.constants.FunctionConst;
+import xyz.kuailemao.domain.dto.EsSyncMessage;
 import xyz.kuailemao.domain.dto.SearchTagDTO;
 import xyz.kuailemao.domain.dto.TagDTO;
 import xyz.kuailemao.domain.entity.ArticleTag;
@@ -34,6 +37,15 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Resource
     private TagMapper tagMapper;
 
+    @Resource
+    private RabbitTemplate rabbitTemplate;
+
+    @Value("${spring.rabbitmq.exchange.es}")
+    private String ES_EXCHANGE;
+
+    @Value("${spring.rabbitmq.routingKey.es-sync}")
+    private String ES_SYNC_ROUTING_KEY;
+
     @Override
     public List<TagVO> listAllTag() {
         return this.query().list().stream().map(tag -> tag.asViewObject(TagVO.class, item -> item.setArticleCount(articleTagMapper.selectCount(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getTagId, tag.getId()))))).toList();
@@ -41,7 +53,13 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
 
     @Override
     public ResponseResult<Void> addTag(TagDTO tagDTO) {
-        if (this.save(tagDTO.asViewObject(Tag.class))) return ResponseResult.success();
+        Tag tag = tagDTO.asViewObject(Tag.class);
+        if (this.save(tag)) {
+            // 同步 ES 索引
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.TAG).id(tag.getId()).syncType(EsSyncMessage.SyncType.SAVE).build());
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 
@@ -69,7 +87,13 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     @Transactional
     @Override
     public ResponseResult<Void> addOrUpdateTag(TagDTO tagDTO) {
-        if (this.saveOrUpdate(tagDTO.asViewObject(Tag.class))) return ResponseResult.success();
+        Tag tag = tagDTO.asViewObject(Tag.class);
+        if (this.saveOrUpdate(tag)) {
+            // 同步 ES 索引（saveOrUpdate 后 tag.getId() 已自动填充）
+            rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.TAG).id(tag.getId()).syncType(EsSyncMessage.SyncType.UPDATE).build());
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 
@@ -80,7 +104,12 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         Long count = articleTagMapper.selectCount(new LambdaQueryWrapper<ArticleTag>().in(ArticleTag::getTagId, ids));
         if (count > 0) return ResponseResult.failure(FunctionConst.TAG_EXIST_ARTICLE);
         // 执行删除
-        if (this.removeByIds(ids)) return ResponseResult.success();
+        if (this.removeByIds(ids)) {
+            // 同步 ES 删除
+            ids.forEach(id -> rabbitTemplate.convertAndSend(ES_EXCHANGE, ES_SYNC_ROUTING_KEY,
+                    EsSyncMessage.builder().entityType(EsSyncMessage.EntityType.TAG).id(id).syncType(EsSyncMessage.SyncType.DELETE).build()));
+            return ResponseResult.success();
+        }
         return ResponseResult.failure();
     }
 }

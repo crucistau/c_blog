@@ -1,0 +1,29 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "analysis": {
+      "analyzer": {
+        "ik_smart_analyzer": { "type": "custom", "tokenizer": "ik_smart" },
+        "ik_max_word_analyzer": { "type": "custom", "tokenizer": "ik_max_word" }
+      }
+    }
+  },
+  "mappings": { "properties": {
+    "id":            { "type": "long" },
+    "userId":        { "type": "long" },
+    "username":      { "type": "keyword" },
+    "categoryId":    { "type": "long" },
+    "categoryName":  { "type": "keyword", "fields": { "text": { "type": "text", "analyzer": "ik_max_word" } } },
+    "articleCover":  { "type": "keyword", "index": false },
+    "articleTitle":  { "type": "text", "analyzer": "ik_max_word", "search_analyzer": "ik_smart", "fields": { "keyword": { "type": "keyword" } } },
+    "articleContent":{ "type": "text", "analyzer": "ik_max_word", "search_analyzer": "ik_smart" },
+    "articleType":   { "type": "integer" },
+    "isTop":         { "type": "integer" },
+    "status":        { "type": "integer" },
+    "visitCount":    { "type": "long" },
+    "tags":          { "type": "keyword", "fields": { "text": { "type": "text", "analyzer": "ik_max_word" } } },
+    "createTime":    { "type": "date", "format": "yyyy-MM-dd HH:mm:ss" },
+    "updateTime":    { "type": "date", "format": "yyyy-MM-dd HH:mm:ss" }
+  }}
+}

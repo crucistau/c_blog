@@ -1,0 +1,42 @@
+此文件为占位说明，**不是**有效的 CA 证书。
+This file is a PLACEHOLDER, NOT a valid CA certificate.
+
+================================================================================
+部署说明 / Deployment instructions
+================================================================================
+
+`ElasticsearchConfig` 默认从 `classpath:es/http_ca.crt` 加载服务器 ES 自签 CA
+证书。本仓库不提交真实证书（涉密 + 各部署环境不同）。
+
+请运维或开发者按以下步骤把服务器 ES 的真实 `http_ca.crt` 放到本目录、覆盖为
+同名文件 `http_ca.crt`（即去掉 `.placeholder.txt` 后缀）：
+
+  # 服务器 ES 8.x 默认在容器内 certs 目录生成 http_ca.crt
+  docker cp blog-elasticsearch:/usr/share/elasticsearch/config/certs/http_ca.crt \
+     ./blog-backend/src/main/resources/es/http_ca.crt
+
+  # 或从服务器 scp 到本地
+  scp ops@server:/path/to/es/config/certs/http_ca.crt \
+      ./blog-backend/src/main/resources/es/http_ca.crt
+
+参考：docs/elasticsearch-migration-spec.md §10「服务器 ES 连接说明」。
+
+================================================================================
+本地开发 / Local development
+================================================================================
+
+如果本地无 ES，请在 `application.yml` 或启动参数中关闭搜索总开关：
+
+  search:
+    enabled: false
+
+`search.enabled=false` 时 `ElasticsearchConfig` 不装配，不会读取本证书，应用
+可在无 ES 环境正常启动。
+
+================================================================================
+安全提示 / Security notes
+================================================================================
+
+- 禁止把全信任 `SSLContext`（trust-all）带入生产环境。
+- `http_ca.crt` 是公网公开的 CA 证书本身不涉密，但建议加入 `.gitignore`
+  避免误把其他环境的证书混入版本库；本占位文件可入库用于占位与说明。
