@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.kuailemao.mapper.ArticleMapper">
+
+    <select id="selectArticleTrend" resultType="xyz.kuailemao.domain.vo.TrendVO">
+        SELECT
+            DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
+            COUNT(*) AS count
+        FROM t_article
+        WHERE is_deleted = 0
+          AND status = 1
+          AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+        ORDER BY date ASC
+    </select>
+
+</mapper>

@@ -1,0 +1,64 @@
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.sw?
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Claude / Superpowers
+.claude/
+.superpowers/
+
+# Docs build
+docs/.vitepress/dist
+docs/.vitepress/cache
+
+# =====================
+# Backend (blog-backend)
+# =====================
+blog-backend/target/
+blog-backend/.mvn/
+blog-backend/HELP.md
+blog-backend/src/main/resources/rebel.xml
+# 环境相关配置（含敏感凭证：数据库/Redis/RabbitMQ/MinIO 密码等），切勿提交
+blog-backend/src/main/resources/application-dev.yml
+blog-backend/src/main/resources/application-prod.yml
+blog-backend/.apt_generated
+blog-backend/.classpath
+blog-backend/.factorypath
+blog-backend/.project
+blog-backend/.settings
+blog-backend/.springBeans
+blog-backend/.sts4-cache
+blog-backend/build/
+
+# =====================
+# Frontend (blog-frontend)
+# =====================
+blog-frontend/**/node_modules/
+blog-frontend/**/dist/
+blog-frontend/**/dist-ssr/
+blog-frontend/**/.nitro/
+blog-frontend/**/.cache/
+blog-frontend/**/.mist/
+blog-frontend/**/.output/
+blog-frontend/**/*.log
+blog-frontend/**/*.local
+# 构建产物与分析报告（本地生成，勿提交）
+blog-frontend/**/admin-dist/
+blog-frontend/**/vite.config.ts.timestamp-*
+blog-frontend/**/visualizer.html
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.kuailemao.mapper.VisitorLogMapper">
+
+    <resultMap id="BaseResultMap" type="xyz.kuailemao.domain.entity.VisitorLog">
+        <id column="id" property="id"/>
+        <result column="ip" property="ip"/>
+        <result column="address" property="address"/>
+        <result column="browser" property="browser"/>
+        <result column="os" property="os"/>
+        <result column="page_url" property="pageUrl"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <select id="selectRegionStatistics" resultType="xyz.kuailemao.domain.vo.RegionStatVO">
+        SELECT
+            SUBSTRING_INDEX(address, ' ', 1) AS province,
+            COUNT(*) AS count
+        FROM t_visitor_log
+        WHERE is_deleted = 0
+          AND address IS NOT NULL
+          AND address != ''
+          AND address != '内网IP'
+          AND address != '未知'
+          <if test="days != null">
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+          </if>
+        GROUP BY province
+        ORDER BY count DESC
+    </select>
+
+    <select id="selectVisitTrend" resultType="xyz.kuailemao.domain.vo.TrendVO">
+        SELECT
+            DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
+            COUNT(*) AS count
+        FROM t_visitor_log
+        WHERE is_deleted = 0
+          AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+        ORDER BY date ASC
+    </select>
+
+</mapper>
