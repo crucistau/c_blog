@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.kuailemao.mapper.VisitorLogMapper">
+<mapper namespace="xyz.crucistau.mapper.VisitorLogMapper">
 
-    <resultMap id="BaseResultMap" type="xyz.kuailemao.domain.entity.VisitorLog">
+    <resultMap id="BaseResultMap" type="xyz.crucistau.domain.entity.VisitorLog">
         <id column="id" property="id"/>
         <result column="ip" property="ip"/>
         <result column="address" property="address"/>
@@ -15,7 +15,7 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <select id="selectRegionStatistics" resultType="xyz.kuailemao.domain.vo.RegionStatVO">
+    <select id="selectRegionStatistics" resultType="xyz.crucistau.domain.vo.RegionStatVO">
         SELECT
             SUBSTRING_INDEX(address, ' ', 1) AS province,
             COUNT(*) AS count
@@ -32,7 +32,7 @@
         ORDER BY count DESC
     </select>
 
-    <select id="selectVisitTrend" resultType="xyz.kuailemao.domain.vo.TrendVO">
+    <select id="selectVisitTrend" resultType="xyz.crucistau.domain.vo.TrendVO">
         SELECT
             DATE_FORMAT(create_time, '%Y-%m-%d') AS date,
             COUNT(*) AS count

@@ -8,7 +8,7 @@
         <version>3.1.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>xyz.kuailemao</groupId>
+    <groupId>xyz.crucistau</groupId>
     <artifactId>blog-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>blog-backend</name>

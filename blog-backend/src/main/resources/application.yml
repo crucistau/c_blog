@@ -145,7 +145,7 @@ springdoc:
   group-configs:
     - group: 'default'
       paths-to-match: '/**'
-      packages-to-scan: xyz.kuailemao
+      packages-to-scan: xyz.crucistau
 # 第三方登录凭证，敏感值见 application-prod.yml / application-dev.yml
 oauth:
   # gitee 登录
@@ -182,9 +182,9 @@ minio:
   bucketName: blog
 # Elasticsearch（与服务器 8.18.0 严格对齐）
 elasticsearch:
-  uris: https://141.98.198.67:9200
-  username: elastic
-  password: ${ES_PASSWORD:changeme}
+  uris:
+  username:
+  password:
   ca-cert-path: classpath:es/http_ca.crt
   connect-timeout: 5000
   socket-timeout: 30000
