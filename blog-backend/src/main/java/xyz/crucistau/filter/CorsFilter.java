@@ -12,7 +12,7 @@ import xyz.crucistau.constants.Const;
 import java.io.IOException;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/9/7 0:22
  * 处理跨域请求

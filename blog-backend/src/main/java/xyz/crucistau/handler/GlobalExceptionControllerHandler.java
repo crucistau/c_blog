@@ -14,7 +14,7 @@ import xyz.crucistau.exceptions.FileUploadException;
 import java.util.Objects;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/10/20 9:14
  * 全局异常处理

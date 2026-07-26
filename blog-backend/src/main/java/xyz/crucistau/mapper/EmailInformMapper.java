@@ -5,7 +5,7 @@ import xyz.crucistau.domain.email.CommentEmail;
 import java.util.List;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/8/8 上午1:29
  */
 public interface EmailInformMapper {

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /** 发送邮箱提醒枚举
- * @author kuailemao
+ *
  * @since 2024/8/10 上午2:41
  */
 @Getter

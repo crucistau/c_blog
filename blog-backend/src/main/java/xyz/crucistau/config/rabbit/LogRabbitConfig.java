@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/11 9:21
  */

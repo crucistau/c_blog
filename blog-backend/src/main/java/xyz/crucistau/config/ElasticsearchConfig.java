@@ -18,11 +18,14 @@ import org.springframework.core.io.Resource;
 import lombok.Data;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 /**
  * Elasticsearch 官方客户端配置（HTTPS + 账号密码 + 自签 CA 信任）。
@@ -33,7 +36,7 @@ import java.security.cert.CertificateFactory;
  * <p>不使用 {@code spring.elasticsearch.*} 命名空间，避免触发 Spring Data ES
  * 自动配置；客户端版本严格对齐服务器 8.18.0。</p>
  *
- * @author kuailemao
+ *
  */
 @Configuration
 @ConditionalOnProperty(name = "search.enabled", havingValue = "true", matchIfMissing = true)
@@ -77,18 +80,32 @@ public class ElasticsearchConfig {
      */
     @Bean
     public RestClient restClient() throws Exception {
-        // 1. 信任服务器自签 CA 证书（纯 JDK API，不依赖具体 httpclient 版本）
-        KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-        trustStore.load(null, null);
-        CertificateFactory cf = CertificateFactory.getInstance("X.509");
-        Resource caRes = new DefaultResourceLoader().getResource(caCertPath);
-        try (InputStream is = caRes.getInputStream()) {
-            trustStore.setCertificateEntry("es-ca", cf.generateCertificate(is));
+        SSLContext sslContext;
+        if (caCertPath != null && !caCertPath.isBlank()) {
+            // 1. 信任服务器自签 CA 证书（纯 JDK API，不依赖具体 httpclient 版本）
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+            CertificateFactory cf = CertificateFactory.getInstance("X.509");
+            Resource caRes = new DefaultResourceLoader().getResource(caCertPath);
+            try (InputStream is = caRes.getInputStream()) {
+                trustStore.setCertificateEntry("es-ca", cf.generateCertificate(is));
+            }
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(trustStore);
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, tmf.getTrustManagers(), null);
+        } else {
+            // 未配置 CA 证书时跳过 SSL 验证（不推荐用于生产环境）
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {}
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {}
+                @Override
+                public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
+            }}, null);
         }
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(trustStore);
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, tmf.getTrustManagers(), null);
 
         // 2. basic auth（elasticsearch-rest-client 8.x 基于 Apache HttpClient 5）
         BasicCredentialsProvider creds = new BasicCredentialsProvider();

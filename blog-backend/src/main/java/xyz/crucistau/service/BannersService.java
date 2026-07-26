@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * (Banners)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2024-08-28 09:51:16
  */
 public interface BannersService extends IService<Banners> {

@@ -11,7 +11,7 @@ import xyz.crucistau.domain.BaseData;
 /**
  * (RoleMenu)表实体类
  *
- * @author kuailemao
+ *
  * @since 2023-11-28 10:23:15
  */
 @Data

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @author kuailemao
+ *
  * @since 2025/1/27 15:03
  */
 @Data

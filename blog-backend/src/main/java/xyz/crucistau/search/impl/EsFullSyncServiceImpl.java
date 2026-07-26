@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 从 MySQL 全量数据重建指定实体类型的 ES 索引，
  * 分批调用对应 {@link DocumentBuilder#upsert(Long)} 完成写入。
  *
- * @author kuailemao
+ *
  * @date 2026-07-20
  */
 @Slf4j

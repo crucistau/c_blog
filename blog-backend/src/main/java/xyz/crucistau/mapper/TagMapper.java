@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * (Tag)表数据库访问层
  *
- * @author kuailemao
+ *
  * @since 2023-10-15 02:29:14
  */
 public interface TagMapper extends BaseMapper<Tag> {

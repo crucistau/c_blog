@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * (CommentEmail)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-10-19 15:44:57
  */
 public interface CommentService extends IService<Comment> {

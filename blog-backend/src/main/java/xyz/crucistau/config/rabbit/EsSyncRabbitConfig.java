@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2026/07/20
  * ES 同步 RabbitMq 配置类

@@ -31,7 +31,7 @@ import java.util.Optional;
  * 组装为扁平文档后通过 {@link ElasticsearchClient#index} 写入 {@link EsIndexConst#ARTICLE_INDEX}。
  * 文章被软删除时改走 {@link #delete(Long)} 清理 ES 文档。
  *
- * @author kuailemao
+ * 
  */
 @Slf4j
 @Component

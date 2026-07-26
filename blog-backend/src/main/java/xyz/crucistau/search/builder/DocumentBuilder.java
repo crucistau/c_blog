@@ -11,7 +11,7 @@ import xyz.crucistau.domain.dto.EsSyncMessage.EntityType;
  *     <li>{@link #delete(Long)} —— 按 ID 删除 ES 文档（{@code esClient.delete(...)})。</li>
  * </ul>
  *
- * @author kuailemao
+ *
  */
 public interface DocumentBuilder {
 

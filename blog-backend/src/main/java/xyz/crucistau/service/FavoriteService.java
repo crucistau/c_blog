@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * (Favorite)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-10-18 14:12:25
  */
 public interface FavoriteService extends IService<Favorite> {

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * @author kuailemao
+ * 
  * @since 2025/1/25 12:55
  * 创建相册DTO
  */

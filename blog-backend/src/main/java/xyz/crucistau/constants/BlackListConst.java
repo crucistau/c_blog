@@ -1,7 +1,7 @@
 package xyz.crucistau.constants;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/25 上午10:06
  * 黑名单常量类
  */

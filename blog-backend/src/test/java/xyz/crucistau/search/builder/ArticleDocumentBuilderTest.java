@@ -50,7 +50,7 @@ import static org.mockito.ArgumentMatchers.any;
  * 对抽象方法 {@code index(IndexRequest)} / {@code delete(DeleteRequest)} 的调用，
  * 从而被桩与抓捕。</p>
  *
- * @author kuailemao
+ * 
  */
 @ExtendWith(MockitoExtension.class)
 class ArticleDocumentBuilderTest {

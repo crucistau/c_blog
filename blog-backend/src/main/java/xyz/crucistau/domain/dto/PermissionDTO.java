@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import xyz.crucistau.domain.BaseData;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/6 9:16
  */

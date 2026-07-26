@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.crucistau.domain.response.ResponseResult;
+import xyz.crucistau.domain.vo.CityStatVO;
 import xyz.crucistau.domain.vo.DashboardOverviewVO;
 import xyz.crucistau.domain.vo.RegionStatVO;
 import xyz.crucistau.domain.vo.TrendVO;
@@ -45,5 +46,11 @@ public class DashboardController {
     @GetMapping("/visitor/region")
     public ResponseResult<List<RegionStatVO>> getRegionStatistics(@RequestParam(value = "days", defaultValue = "30") Integer days) {
         return ResponseResult.success(dashboardService.getRegionStatistics(days));
+    }
+
+    @Operation(summary = "获取访客城市分布")
+    @GetMapping("/visitor/city")
+    public ResponseResult<List<CityStatVO>> getCityStatistics(@RequestParam(value = "days", defaultValue = "30") Integer days) {
+        return ResponseResult.success(dashboardService.getCityStatistics(days));
     }
 }

@@ -7,6 +7,7 @@ import xyz.crucistau.domain.entity.Article;
 import xyz.crucistau.domain.entity.Category;
 import xyz.crucistau.domain.entity.Comment;
 import xyz.crucistau.domain.entity.Tag;
+import xyz.crucistau.domain.vo.CityStatVO;
 import xyz.crucistau.domain.vo.DashboardOverviewVO;
 import xyz.crucistau.domain.vo.RegionStatVO;
 import xyz.crucistau.domain.vo.TrendVO;
@@ -75,5 +76,10 @@ public class DashboardServiceImpl implements DashboardService {
     @Override
     public List<RegionStatVO> getRegionStatistics(Integer days) {
         return visitorLogMapper.selectRegionStatistics(days);
+    }
+
+    @Override
+    public List<CityStatVO> getCityStatistics(Integer days) {
+        return visitorLogMapper.selectCityStatistics(days);
     }
 }

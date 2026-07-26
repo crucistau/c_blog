@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * (Link)表实体类
  *
- * @author kuailemao
+ *
  * @since 2023-11-14 08:43:34
  */
 @Data

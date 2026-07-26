@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import xyz.crucistau.domain.BaseData;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/11/14 8:52
  */

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * (Photo)表服务接口
  *
- * @author kuailemao
+ * 
  * @since 2025-01-16 16:33:07
  */
 public interface PhotoService extends IService<Photo> {

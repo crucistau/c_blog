@@ -7,7 +7,7 @@ import xyz.crucistau.constants.ImageConst;
 import java.util.List;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/27 14:20
  * 文件上传枚举

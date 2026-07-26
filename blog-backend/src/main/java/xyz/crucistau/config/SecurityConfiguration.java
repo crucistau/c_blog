@@ -13,7 +13,7 @@ import xyz.crucistau.filter.JwtAuthorizeFilter;
 import xyz.crucistau.handler.SecurityHandler;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/10 16:26
  */

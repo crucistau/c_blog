@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  *
  * <p>纯 Mockito，不启动 Spring 上下文 —— 仅验证路由逻辑。</p>
  *
- * @author kuailemao
+ *
  */
 class EsSyncListenerTest {
 

@@ -19,7 +19,7 @@ import java.util.Objects;
 /**
  * (Like)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-10-18 19:41:19
  */
 @Service("likeService")

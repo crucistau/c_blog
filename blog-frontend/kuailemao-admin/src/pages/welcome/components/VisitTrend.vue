@@ -2,6 +2,7 @@
 import { onMounted, ref, watch } from 'vue'
 import { Line } from '@antv/g2plot'
 import type { TrendItem } from '~/api/blog/dashboard'
+import { fillTrendDates } from '../utils'
 
 const props = defineProps<{
   data: TrendItem[]
@@ -14,12 +15,15 @@ const containerRef = ref<HTMLDivElement>()
 let plot: Line | null = null
 
 function renderChart() {
-  if (!containerRef.value || !props.data.length) return
+  if (!containerRef.value) return
 
   plot?.destroy()
 
+  // 补全最近 days 天日期序列，无访问的日期填 0，保证图表始终渲染完整坐标轴
+  const chartData = fillTrendDates(props.data, props.days)
+
   plot = new Line(containerRef.value, {
-    data: props.data,
+    data: chartData,
     xField: 'date',
     yField: 'count',
     smooth: true,
@@ -79,6 +83,9 @@ watch(() => props.data, renderChart, { deep: true })
   border-radius: 8px;
   border: 1px solid #f0f0f0;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .trend-header {
@@ -86,6 +93,7 @@ watch(() => props.data, renderChart, { deep: true })
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .trend-title {
@@ -99,6 +107,7 @@ watch(() => props.data, renderChart, { deep: true })
 }
 
 .chart-container {
-  height: 280px;
+  flex: 1;
+  min-height: 0;
 }
 </style>

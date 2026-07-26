@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * (UserRole)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-11-17 16:34:06
  */
 public interface UserRoleService extends IService<UserRole> {

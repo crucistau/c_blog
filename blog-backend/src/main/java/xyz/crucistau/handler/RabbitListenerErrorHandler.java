@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.support.ListenerExecutionFailedException;
 import org.springframework.stereotype.Component;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2024/7/31 20:54
  * 邮件队列监听器

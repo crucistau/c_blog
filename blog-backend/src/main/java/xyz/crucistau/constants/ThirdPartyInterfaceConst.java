@@ -1,7 +1,7 @@
 package xyz.crucistau.constants;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/27 上午9:40
  * 第三方接口常量
  */

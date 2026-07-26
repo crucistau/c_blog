@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * (Photo)表控制层
  *
- * @author kuailemao
+ * 
  * @since 2025-01-16 16:33:05
  */
 @Validated

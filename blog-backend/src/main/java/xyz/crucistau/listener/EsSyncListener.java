@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * {@code "rabbitListenerErrorHandler"}）接管，再经 {@code application.yml}
  * 配置的重试策略（max-attempts: 3）重试，最终入死信队列。
  *
- * @author kuailemao
+ *
  */
 @Slf4j
 @Component

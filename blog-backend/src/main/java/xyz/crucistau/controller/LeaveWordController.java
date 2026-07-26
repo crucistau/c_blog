@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * (LeaveWord)表控制层
  *
- * @author kuailemao
+ * 
  * @since 2023-11-03 15:01:10
  */
 @RestController

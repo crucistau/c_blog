@@ -2,7 +2,7 @@ server:
   port: 8088
 spring:
   profiles:
-    active: "@profiles.active@"
+    active: prod
   security:
     jwt:
       # JWT 密钥与有效期，敏感值见 application-prod.yml / application-dev.yml
@@ -185,7 +185,6 @@ elasticsearch:
   uris:
   username:
   password:
-  ca-cert-path: classpath:es/http_ca.crt
   connect-timeout: 5000
   socket-timeout: 30000
 # 全文搜索开关与实体粒度降级开关

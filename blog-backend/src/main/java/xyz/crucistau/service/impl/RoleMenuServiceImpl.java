@@ -9,7 +9,7 @@ import xyz.crucistau.service.RoleMenuService;
 /**
  * (RoleMenu)表服务实现类
  *
- * @author kuailemao
+ * 
  * @since 2023-11-28 10:23:17
  */
 @Service("roleMenuService")

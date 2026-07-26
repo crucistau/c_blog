@@ -4,7 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import me.zhyd.oauth.model.AuthResponse;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/21 17:09
  */

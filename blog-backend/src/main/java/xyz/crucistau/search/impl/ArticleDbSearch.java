@@ -17,7 +17,7 @@ import java.util.List;
  * 委托 {@link ArticleService} 现有的 LIKE 查询方法，作为 ES 接入前的默认策略，
  * 不引入任何业务逻辑变更。
  *
- * @author kuailemao
+ * 
  * @since es-search
  */
 @Component

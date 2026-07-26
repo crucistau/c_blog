@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * (Menu)表服务接口
  *
- * @author kuailemao
+ * 
  * @since 2023-11-17 22:15:22
  */
 public interface MenuService extends IService<Menu> {

@@ -9,7 +9,7 @@ import xyz.crucistau.domain.BaseData;
 import java.io.Serializable;
 
 /**
- * @author kuailemao
+ * 
  * @since 2024/8/8 上午12:31
  */
 @Data

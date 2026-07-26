@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/10/17 9:17
  * 注册类型枚举

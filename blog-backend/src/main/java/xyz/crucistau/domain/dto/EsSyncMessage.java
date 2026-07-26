@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 用于在 RabbitMQ 队列中传递实体变更事件，由消费端根据 {@link EntityType} 与 {@link SyncType}
  * 路由到对应的 {@code DocumentBuilder} 执行索引写入/删除。
  *
- * @author kuailemao
+ * 
  */
 @Data
 @Builder

@@ -13,7 +13,7 @@ import xyz.crucistau.domain.BaseData;
 /**
  * (CommentEmail)表实体类
  *
- * @author kuailemao
+ * 
  * @since 2023-10-19 15:44:56
  */
 @Data

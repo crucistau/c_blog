@@ -32,6 +32,23 @@
         ORDER BY count DESC
     </select>
 
+    <select id="selectCityStatistics" resultType="xyz.crucistau.domain.vo.CityStatVO">
+        SELECT
+            SUBSTRING_INDEX(address, ' ', -1) AS city,
+            COUNT(*) AS count
+        FROM t_visitor_log
+        WHERE is_deleted = 0
+          AND address IS NOT NULL
+          AND address != ''
+          AND address != '内网IP'
+          AND address != '未知'
+          <if test="days != null">
+              AND create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+          </if>
+        GROUP BY city
+        ORDER BY count DESC
+    </select>
+
     <select id="selectVisitTrend" resultType="xyz.crucistau.domain.vo.TrendVO">
         SELECT
             DATE_FORMAT(create_time, '%Y-%m-%d') AS date,

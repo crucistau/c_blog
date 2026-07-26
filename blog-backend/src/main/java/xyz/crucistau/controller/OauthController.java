@@ -25,7 +25,7 @@ import xyz.crucistau.service.OauthService;
 import java.io.IOException;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/21 14:52
  */

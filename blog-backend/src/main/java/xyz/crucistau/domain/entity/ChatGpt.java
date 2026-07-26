@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * (ChatGpt)表实体类
  *
- * @author kuailemao
+ *
  * @since 2023-11-11 12:01:59
  */
 @Data

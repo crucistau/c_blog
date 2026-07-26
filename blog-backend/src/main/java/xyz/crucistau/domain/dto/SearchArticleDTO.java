@@ -4,7 +4,7 @@ import lombok.Data;
 import xyz.crucistau.domain.BaseData;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2024/1/7 19:22
  */

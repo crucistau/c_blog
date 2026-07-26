@@ -1,7 +1,7 @@
 package xyz.crucistau.constants;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/12/29 8:33
  * 网站基本信息

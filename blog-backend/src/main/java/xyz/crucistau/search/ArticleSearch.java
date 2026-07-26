@@ -13,7 +13,7 @@ import java.util.List;
  * 抽象底层搜索引擎，便于在 DB LIKE 搜索与 ES 全文检索之间切换。
  * 当前默认实现为 {@code ArticleDbSearch}，后续可替换为 ES 实现。
  *
- * @author kuailemao
+ *
  * @since es-search
  */
 public interface ArticleSearch {

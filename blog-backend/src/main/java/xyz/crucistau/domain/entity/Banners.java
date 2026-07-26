@@ -13,7 +13,7 @@ import xyz.crucistau.domain.BaseData;
 /**
  * (Banners)表实体类
  *
- * @author kuailemao
+ *
  * @since 2024-08-28 09:51:16
  */
 @Data

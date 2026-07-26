@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 需要真实 {@code http_ca.crt} 才能成功构造 bean，难以纯单测，按 task brief
  * 指引跳过，留给集成测试 / 真实部署环境验证。</p>
  *
- * @author kuailemao
+ *
  */
 class ElasticsearchConfigTest {
 

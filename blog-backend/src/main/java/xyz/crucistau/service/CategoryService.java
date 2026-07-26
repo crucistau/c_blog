@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * (Category)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-10-15 02:29:13
  */
 public interface CategoryService extends IService<Category> {

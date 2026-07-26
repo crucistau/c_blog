@@ -28,7 +28,7 @@ import java.util.Map;
  * 使用 {@link ElasticsearchClient} 进行全文检索，支持多字段匹配、
  * 高亮、条件过滤；ES 异常时自动回退至 {@link ArticleDbSearch}。
  *
- * @author kuailemao
+ * 
  * @since es-search
  */
 @Slf4j

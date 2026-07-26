@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import xyz.crucistau.service.RedisService;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/22 15:16
  * 说明：自动任务，初始化

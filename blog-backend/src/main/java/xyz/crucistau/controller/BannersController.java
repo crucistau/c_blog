@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * (Banners)表控制层
  *
- * @author kuailemao
+ *
  * @since 2024-08-28 09:51:12
  */
 @RestController

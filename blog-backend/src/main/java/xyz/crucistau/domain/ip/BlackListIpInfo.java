@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/25 上午10:23
  * 黑名单ip
  */

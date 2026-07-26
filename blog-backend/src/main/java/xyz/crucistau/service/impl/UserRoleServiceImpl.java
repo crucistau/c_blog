@@ -38,7 +38,7 @@ import java.util.Objects;
 /**
  * (UserRole)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-11-17 16:34:06
  */
 @Service("userRoleService")

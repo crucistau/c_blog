@@ -23,7 +23,7 @@ import xyz.crucistau.utils.ControllerUtils;
 /**
  * (LoginLog)表控制层
  *
- * @author kuailemao
+ * 
  * @since 2023-12-08 14:38:43
  */
 @Tag(name = "操作日志相关接口")

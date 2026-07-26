@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
  * {@link ArticleDbSearch} 纯委托单测：验证三个方法各调用一次对应的 {@link ArticleService} 方法，
  * 并原样回传结果。
  *
- * @author kuailemao
+ *
  * @since es-search
  */
 @ExtendWith(MockitoExtension.class)

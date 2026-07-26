@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * (Permission)表实体类
  *
- * @author kuailemao
+ *
  * @since 2023-10-13 15:02:40
  */
 @Data

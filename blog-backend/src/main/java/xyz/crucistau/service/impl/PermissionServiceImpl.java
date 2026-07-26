@@ -27,7 +27,7 @@ import java.util.Optional;
 /**
  * (Permission)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-12-05 19:53:31
  */
 @Service

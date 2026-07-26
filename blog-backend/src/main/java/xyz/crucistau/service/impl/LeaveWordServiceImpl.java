@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * (LeaveWord)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-11-03 15:01:11
  */
 @Service("leaveWordService")

@@ -10,13 +10,15 @@ import {
   getVisitTrend,
   getArticleTrend,
   getVisitorRegion,
+  getVisitorCity,
 } from '~/api/blog/dashboard'
-import type { DashboardOverview, TrendItem, RegionStat } from '~/api/blog/dashboard'
+import type { DashboardOverview, TrendItem, RegionStat, CityStat } from '~/api/blog/dashboard'
 
 const overview = ref<DashboardOverview>()
 const visitTrend = ref<TrendItem[]>([])
 const articleTrend = ref<TrendItem[]>([])
 const regionData = ref<RegionStat[]>([])
+const cityData = ref<CityStat[]>([])
 const loading = ref(true)
 
 const visitDays = ref(7)
@@ -42,8 +44,15 @@ async function loadArticleTrend(days: number) {
 
 async function loadRegion(days: number) {
   regionDays.value = days
-  const { data } = await getVisitorRegion(days)
-  regionData.value = data ?? []
+  const result = await getVisitorRegion(days)
+  regionData.value = result.data ?? []
+  // 同步刷新城市数据
+  loadCity(days)
+}
+
+async function loadCity(days: number) {
+  const result = await getVisitorCity(days)
+  cityData.value = result?.data ?? []
 }
 
 onMounted(async () => {
@@ -52,6 +61,7 @@ onMounted(async () => {
     loadVisitTrend(7),
     loadArticleTrend(7),
     loadRegion(30),
+    loadCity(30),
   ])
   loading.value = false
 })
@@ -106,6 +116,7 @@ onMounted(async () => {
       <div class="chart-half">
         <VisitorMap
           :data="regionData"
+          :cityData="cityData"
           :days="regionDays"
           @update:days="loadRegion"
         />
@@ -139,6 +150,7 @@ onMounted(async () => {
 .chart-row {
   display: flex;
   gap: 16px;
+  align-items: stretch;
 }
 
 .chart-main {

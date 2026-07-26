@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * 该工具类提供统一的 URL 替换逻辑，查询时动态替换为当前配置的 endpoint。
  * </p>
  *
- * @author kuailemao
+ *
  */
 @Slf4j
 @Component

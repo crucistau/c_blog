@@ -15,7 +15,7 @@ import xyz.crucistau.domain.ip.BlackListIpInfo;
 /**
  * (BlackList)表实体类
  *
- * @author kuailemao
+ *
  * @since 2024-09-05 16:13:19
  */
 @Builder

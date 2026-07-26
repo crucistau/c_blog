@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * (Banners)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2024-08-28 09:51:22
  */
 @Service("bannersService")

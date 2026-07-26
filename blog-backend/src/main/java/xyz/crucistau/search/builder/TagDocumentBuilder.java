@@ -27,7 +27,7 @@ import java.util.Map;
  * </ul>
  * 任何 I/O 异常包装为 {@link RuntimeException} 抛出，由 MQ 重试 / 死信策略接管。
  *
- * @author kuailemao
+ *
  * @since es-search
  */
 @Slf4j

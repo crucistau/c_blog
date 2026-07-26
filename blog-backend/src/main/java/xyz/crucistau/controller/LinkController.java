@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * (Link)表控制层
  *
- * @author kuailemao
+ *
  * @since 2023-11-14 08:48:32
  */
 @Tag(name = "友链相关接口")

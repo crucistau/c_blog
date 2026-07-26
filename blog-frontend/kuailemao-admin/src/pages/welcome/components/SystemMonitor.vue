@@ -97,18 +97,24 @@ function diskUsage(): string {
   border-radius: 8px;
   border: 1px solid #f0f0f0;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .monitor-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .monitor-body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex: 1;
+  justify-content: space-evenly;
 }
 
 .monitor-item {

@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/19 16:50
  * 分页VO

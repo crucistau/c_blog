@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * (LoginLog)表服务接口
  *
- * @author kuailemao
+ * 
  * @since 2023-12-08 14:38:44
  */
 public interface LoginLogService extends IService<LoginLog> {

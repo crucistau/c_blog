@@ -1,7 +1,7 @@
 package xyz.crucistau.constants;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2026/07/20
  * ES 索引与高亮常量类

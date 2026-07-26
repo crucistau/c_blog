@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/10 17:28
  * jwt 工具类

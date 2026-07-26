@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * (LeaveWord)表实体类
  *
- * @author kuailemao
+ * 
  * @since 2023-11-03 15:01:10
  */
 

@@ -9,7 +9,7 @@ import xyz.crucistau.service.ArticleTagService;
 /**
  * (ArticleTag)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-10-15 02:29:13
  */
 @Service("articleTagService")

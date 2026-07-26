@@ -7,7 +7,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/10/16 16:43
  * 用户注册DTO

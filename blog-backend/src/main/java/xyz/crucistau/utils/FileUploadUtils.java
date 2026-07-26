@@ -22,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/26 19:16
  * 文件上传工具类

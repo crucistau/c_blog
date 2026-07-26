@@ -17,7 +17,7 @@ import xyz.crucistau.service.IpService;
 import java.io.IOException;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/11 10:01
  * 日志队列

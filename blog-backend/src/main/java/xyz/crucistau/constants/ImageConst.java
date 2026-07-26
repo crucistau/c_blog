@@ -1,7 +1,7 @@
 package xyz.crucistau.constants;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/2 下午6:14
  */
 public class ImageConst {

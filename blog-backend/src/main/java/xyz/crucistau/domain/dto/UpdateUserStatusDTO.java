@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/11/30 17:20
  */

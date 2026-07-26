@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
  * 纯 Mockito：验证 upsert 路径调用 {@code esClient.index}，delete 路径调用 {@code esClient.delete}，
  * 且 type/indexName 与常量一致。
  *
- * @author kuailemao
+ * 
  * @since es-search
  */
 @ExtendWith(MockitoExtension.class)

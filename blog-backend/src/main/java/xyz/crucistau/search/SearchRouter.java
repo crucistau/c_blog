@@ -2,6 +2,8 @@ package xyz.crucistau.search;
 
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xyz.crucistau.search.impl.ArticleDbSearch;
@@ -13,7 +15,7 @@ import xyz.crucistau.search.impl.ArticleEsSearch;
  * <p>{@code search.enabled=false} 或 {@code search.entities.article=false} 时走 DB 策略；
  * ES bean 缺失（总开关关闭导致不装配）时自动回退 DB。</p>
  *
- * @author kuailemao
+ *
  * @date 2026-07-20
  * @description ES/DB 搜索策略路由器
  */
@@ -26,7 +28,8 @@ public class SearchRouter {
     @Value("${search.entities.article:true}")
     private boolean articleEnabled;
 
-    @Resource(name = "articleEsSearch")
+    @Autowired
+    @Qualifier("articleEsSearch")
     private ObjectProvider<ArticleSearch> articleEs;
 
     @Resource

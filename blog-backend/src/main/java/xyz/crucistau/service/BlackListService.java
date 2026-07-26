@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * (BlackList)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2024-09-05 16:13:20
  */
 public interface BlackListService extends IService<BlackList> {

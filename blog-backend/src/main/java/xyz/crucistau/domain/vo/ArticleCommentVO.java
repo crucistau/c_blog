@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/10/19 20:09
  * 文章评论VO

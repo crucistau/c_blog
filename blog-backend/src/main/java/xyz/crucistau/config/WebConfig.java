@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import xyz.crucistau.interceptor.AccessLimitInterceptor;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/16 19:56
  */

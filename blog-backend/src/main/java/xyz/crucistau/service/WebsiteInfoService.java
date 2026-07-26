@@ -13,7 +13,7 @@ import xyz.crucistau.enums.UploadEnum;
 /**
  * (WebsiteInfo)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-12-27 14:07:34
  */
 public interface WebsiteInfoService extends IService<WebsiteInfo> {

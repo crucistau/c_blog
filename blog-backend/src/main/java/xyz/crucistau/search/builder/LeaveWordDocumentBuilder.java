@@ -23,7 +23,7 @@ import java.util.Optional;
  * {@link ElasticsearchClient#index} 写入 {@link EsIndexConst#LEAVE_WORD_INDEX}。
  * 留言被软删除（或不存在）时改走 {@link #delete(Long)} 清理 ES 文档。
  *
- * @author kuailemao
+ *
  */
 @Slf4j
 @Component

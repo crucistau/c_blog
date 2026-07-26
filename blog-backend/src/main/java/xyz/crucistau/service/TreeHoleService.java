@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * (TreeHole)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-10-30 11:14:14
  */
 public interface TreeHoleService extends IService<TreeHole> {

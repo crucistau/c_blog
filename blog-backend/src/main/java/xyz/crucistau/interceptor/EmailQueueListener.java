@@ -40,7 +40,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author kuailemao
+ * 
  * <p>
  * 创建时间：2023/10/16 20:51
  * 邮件队列监听器

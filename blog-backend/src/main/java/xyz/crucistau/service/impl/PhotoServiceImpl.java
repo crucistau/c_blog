@@ -34,7 +34,7 @@ import static xyz.crucistau.constants.SQLConst.ORDER_BY_CREATE_TIME_DESC;
 /**
  * (Photo)表服务实现类
  *
- * @author kuailemao
+ * 
  * @since 2025-01-16 16:33:08
  */
 @Log4j2

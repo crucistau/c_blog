@@ -3,7 +3,7 @@ package xyz.crucistau.domain.vo;
 import lombok.Data;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/11/14 11:27
  */

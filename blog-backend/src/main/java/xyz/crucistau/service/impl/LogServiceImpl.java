@@ -23,7 +23,7 @@ import java.util.Objects;
 /**
  * (Log)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-12-12 09:12:32
  */
 @Service("logService")

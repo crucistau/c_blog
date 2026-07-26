@@ -15,7 +15,7 @@ import java.util.Date;
 /**
  * (WebsiteInfo)表实体类
  *
- * @author kuailemao
+ *
  * @since 2023-12-27 14:07:33
  */
 @Data

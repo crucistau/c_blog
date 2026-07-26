@@ -5,7 +5,7 @@ import xyz.crucistau.domain.response.ResponseResult;
 import java.util.function.Supplier;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/10/30 9:52
  */

@@ -3,7 +3,7 @@ package xyz.crucistau.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/12/11 22:50
  * 系统日志记录

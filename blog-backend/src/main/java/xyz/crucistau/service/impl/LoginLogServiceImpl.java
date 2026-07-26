@@ -28,7 +28,7 @@ import java.util.Objects;
 /**
  * (LoginLog)表服务实现类
  *
- * @author kuailemao
+ *
  * @since 2023-12-08 14:38:44
  */
 @Slf4j

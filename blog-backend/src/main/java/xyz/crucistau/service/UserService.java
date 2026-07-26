@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * (User)表服务接口
  *
- * @author kuailemao
+ *
  * @since 2023-10-10 19:33:43
  */
 public interface UserService extends IService<User>, UserDetailsService {

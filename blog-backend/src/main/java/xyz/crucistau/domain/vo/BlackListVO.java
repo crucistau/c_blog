@@ -7,7 +7,7 @@ import xyz.crucistau.domain.ip.BlackListIpInfo;
 import java.util.Date;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/18 下午6:04
  */
 @Data

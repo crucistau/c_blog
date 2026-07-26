@@ -1,7 +1,7 @@
 package xyz.crucistau.utils;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/11/30 17:00
  */

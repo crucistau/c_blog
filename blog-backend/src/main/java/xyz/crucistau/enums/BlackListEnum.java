@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author kuailemao
+ *
  * @since 2024/9/12 下午4:40
  * 黑名单枚举类
  */

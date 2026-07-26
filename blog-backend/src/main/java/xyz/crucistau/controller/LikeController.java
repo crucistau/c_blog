@@ -18,7 +18,7 @@ import xyz.crucistau.service.LikeService;
 import java.util.List;
 
 /**
- * @author kuailemao
+ *
  * <p>
  * 创建时间：2023/11/3 10:15
  */

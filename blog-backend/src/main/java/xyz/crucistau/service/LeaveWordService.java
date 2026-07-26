@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * (LeaveWord)表服务接口
  *
- * @author kuailemao
+ * 
  * @since 2023-11-03 15:01:11
  */
 public interface LeaveWordService extends IService<LeaveWord> {
