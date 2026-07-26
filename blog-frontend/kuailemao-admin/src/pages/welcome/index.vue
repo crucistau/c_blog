@@ -151,6 +151,7 @@ onMounted(async () => {
   display: flex;
   gap: 16px;
   align-items: stretch;
+  height: 360px;
 }
 
 .chart-main {

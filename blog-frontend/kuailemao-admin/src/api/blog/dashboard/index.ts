@@ -19,6 +19,11 @@ export interface RegionStat {
   count: number
 }
 
+export interface CityStat {
+  city: string
+  count: number
+}
+
 // 获取概览指标
 export async function getDashboardOverview() {
   return useGet<DashboardOverview>('/dashboard/overview').catch(msg => message.warn(msg))
@@ -41,6 +46,13 @@ export async function getArticleTrend(days: number = 7) {
 // 获取访客地域分布
 export async function getVisitorRegion(days: number = 30) {
   return useGet<RegionStat[]>('/dashboard/visitor/region', null, {
+    params: { days },
+  }).catch(msg => message.warn(msg))
+}
+
+// 获取访客城市分布
+export async function getVisitorCity(days: number = 30) {
+  return useGet<CityStat[]>('/dashboard/visitor/city', null, {
     params: { days },
   }).catch(msg => message.warn(msg))
 }

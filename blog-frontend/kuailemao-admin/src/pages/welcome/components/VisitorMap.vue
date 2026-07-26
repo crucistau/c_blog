@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 import * as echarts from 'echarts/core'
 import { MapChart, ScatterChart, EffectScatterChart } from 'echarts/charts'
 import { GeoComponent, TitleComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
@@ -31,6 +31,7 @@ const props = defineProps<{
 const emit = defineEmits(['update:days'])
 const containerRef = ref<HTMLDivElement>()
 const chartRef = shallowRef<EChartsType | null>(null)
+let resizeObserver: ResizeObserver | undefined
 
 /**
  * 将后端城市名映射为地理坐标点。
@@ -86,6 +87,8 @@ function convertData(cityStats: CityStat[]): CoordPoint[] {
 
 function renderChart() {
   if (!containerRef.value) return
+  // 图表卡片进入路由过渡时，容器可能尚未完成布局；零尺寸下 ECharts 会抛出异常并中断首页挂载。
+  if (!containerRef.value.clientWidth || !containerRef.value.clientHeight) return
   if (!chartRef.value) chartRef.value = echarts.init(containerRef.value)
 
   const coords = convertData(props.cityData)
@@ -176,22 +179,29 @@ function renderChart() {
 }
 
 function handleResize() {
+  renderChart()
   chartRef.value?.resize()
 }
 
 onMounted(() => {
-  renderChart()
+  nextTick(() => {
+    if (!containerRef.value) return
+    resizeObserver = new ResizeObserver(handleResize)
+    resizeObserver.observe(containerRef.value)
+    renderChart()
+  })
   window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize)
+  resizeObserver?.disconnect()
   chartRef.value?.dispose()
   chartRef.value = null
 })
 
 // 省份数据或城市数据变化时重新渲染
-watch([() => props.data, () => props.cityData], renderChart, { deep: true })
+watch([() => props.data, () => props.cityData], handleResize, { deep: true })
 </script>
 
 <template>
