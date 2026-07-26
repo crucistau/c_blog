@@ -180,6 +180,12 @@
             <artifactId>elasticsearch-rest-client</artifactId>
             <version>8.18.0</version>
         </dependency>
+        <!-- 本地 IP 归属地查询 -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>3.3.7</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.crucistau.domain.entity.VisitorLog;
 import xyz.crucistau.service.VisitorLogService;
-import xyz.crucistau.utils.AddressUtils;
 import xyz.crucistau.utils.BrowserUtil;
+import xyz.crucistau.utils.IpLocationResolver;
 import xyz.crucistau.utils.IpUtils;
 
 import java.io.IOException;
@@ -22,6 +22,9 @@ public class VisitorLogFilter extends OncePerRequestFilter {
 
     @Resource
     private VisitorLogService visitorLogService;
+
+    @Resource
+    private IpLocationResolver ipLocationResolver;
 
     private static final String[] FRONTEND_PATHS = {
             "/article/",
@@ -39,7 +42,7 @@ public class VisitorLogFilter extends OncePerRequestFilter {
                 String ip = IpUtils.getIpAddr(request);
                 VisitorLog log = VisitorLog.builder()
                         .ip(ip)
-                        .address(AddressUtils.getRealAddressByIP(ip))
+                        .address(ipLocationResolver.resolve(ip))
                         .browser(BrowserUtil.browserName(request))
                         .os(BrowserUtil.osName(request))
                         .pageUrl(requestURI)
